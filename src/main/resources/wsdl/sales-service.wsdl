@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<wsdl:definitions name="SalesService"
+             targetNamespace="http://codeotter.fr/salesservice.wsdl"
+             xmlns:tns="http://codeotter.fr/salesservice.wsdl"
+             xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+             xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  >
+
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://codeotter.fr/salesservice.wsdl"
+                xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+            <xsd:element name="AllSalesResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sales" type="tns:sale" minOccurs="0" maxOccurs="unbounded"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:complexType name="sale">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:integer" minOccurs="1" maxOccurs="1"/>
+                    <xsd:element name="article_id" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+                    <xsd:element name="customer_name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:element name="AllSalesRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="max_sales" type="xsd:integer"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="GetAllSalesInput">
+        <wsdl:part name="saleRequest" element="tns:AllSalesRequest"/>
+    </wsdl:message>
+
+    <wsdl:message name="GetAllSalesOutput">
+        <wsdl:part name="saleResponse" element="tns:AllSalesResponse"/>
+    </wsdl:message>
+
+    <wsdl:portType name="AllSalesPortType">
+        <wsdl:operation name="GetAllSales">
+            <wsdl:input message="tns:GetAllSalesInput"/>
+            <wsdl:output message="tns:GetAllSalesOutput"/>
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="SalesServiceSoapBinding" type="tns:AllSalesPortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="GetAllSales">
+            <soap:operation soapAction="http://example.com/GetAllSales"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <wsdl:service name="SalesService">
+        <wsdl:documentation>Sales service</wsdl:documentation>
+        <wsdl:port name="SalesServicePort" binding="tns:SalesServiceSoapBinding">
+            <soap:address location="http://example.com/salesService"/>
+        </wsdl:port>
+    </wsdl:service>
+
+</wsdl:definitions>

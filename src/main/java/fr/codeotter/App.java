@@ -1,4 +1,4 @@
-package org.codeotter;
+package fr.codeotter;
 
 /**
  * Created by swinside on 13/12/15.
